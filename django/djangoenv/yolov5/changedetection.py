@@ -89,17 +89,19 @@ class ChangeDetection:
             }
             # POST data
             data = {
-                'title': self.title.strip(', '),  # Clean up trailing comma
-                'text': self.text.strip(', '),
-                'created_date': now.isoformat(),
-                'published_date': now.isoformat()
+            'author': 1,
+            'title': self.title,
+            'text': self.text.strip(', '),  # 쉼표 제거
+            'created_date': datetime.now().isoformat(),  # ISO 8601 형식으로 변환
+            'published_date': datetime.now().isoformat()  # 동일한 형식
             }
-            file = {'image': open(full_path, 'rb')}
+            files = {'image': open(full_path, 'rb')}
+
 
             # Send POST request
             res = requests.post(
                 f"{self.HOST}/api_root/Post/",
-                data=data, files=file, headers=headers
+                data=data, files=files, headers=headers
             )
             res.raise_for_status()  # Ensure the request succeeded
             print(f"Data sent successfully: {res.status_code}")
